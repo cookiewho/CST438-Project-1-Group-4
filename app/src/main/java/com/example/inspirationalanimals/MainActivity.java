@@ -1,11 +1,14 @@
 package com.example.inspirationalanimals;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -37,7 +40,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String name = username.getText().toString();
                 String pass = password.getText().toString();
+
                 boolean isValid = validate(name, pass);
+                if(isValid){
+                    setContentView(R.layout.activity_list);
+                }else{
+                    alertDialog();
+                }
             }
         });
     }
@@ -52,5 +61,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return match_user && match_pass;
+    }
+
+    private void alertDialog(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setMessage("Your username or password is incorrect.");
+        dialog.setTitle("Invalid Credentials");
+        dialog.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                    }
+                });
+        AlertDialog alertDialog=dialog.create();
+        alertDialog.show();
     }
 }
