@@ -65,12 +65,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void alertDialog(){
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setMessage("Your username or password is incorrect.");
+        dialog.setMessage("Your username and/or password is incorrect.");
         dialog.setTitle("Invalid Credentials");
         dialog.setPositiveButton("OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int which) {
+
                     }
                 });
         AlertDialog alertDialog=dialog.create();
