@@ -19,16 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText password;
     private Button login_button;
     private TextView text;
-//    private static ArrayList<String> credentials = loadCredentials();
     private static AppDB database;
-
-//    private static ArrayList<String> loadCredentials() {
-//        ArrayList<String> admin = new ArrayList<String>();
-//        admin.add("Admin");
-//        admin.add("Pass");
-//        admin.add("1");
-//        return admin;
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                     text = findViewById(R.id.textView);
                     List<User> user_data = database.getUserByName(name);
                     User user = user_data.get(0);
-                    
+
                     text.append("\nWelcome " + user.getUsername() + "\n");
                 }else{
                     alertDialog();
