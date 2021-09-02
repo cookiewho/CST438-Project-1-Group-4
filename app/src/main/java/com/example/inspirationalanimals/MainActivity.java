@@ -8,28 +8,34 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private EditText username;
     private EditText password;
     private Button login_button;
-    private static ArrayList<String> credentials = loadCredentials();
+    private TextView text;
+//    private static ArrayList<String> credentials = loadCredentials();
+    private static AppDB database;
 
-    private static ArrayList<String> loadCredentials() {
-        ArrayList<String> admin = new ArrayList<String>();
-        admin.add("Admin");
-        admin.add("Pass");
-        admin.add("1");
-        return admin;
-    }
+//    private static ArrayList<String> loadCredentials() {
+//        ArrayList<String> admin = new ArrayList<String>();
+//        admin.add("Admin");
+//        admin.add("Pass");
+//        admin.add("1");
+//        return admin;
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        database = AppDB.getInstance(this);
+        database.seed();
 
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
@@ -44,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
                 boolean isValid = validate(name, pass);
                 if(isValid){
                     setContentView(R.layout.activity_list);
+                    text = findViewById(R.id.textView);
+                    List<User> user_data = database.getUserByName(name);
+                    User user = user_data.get(0);
+                    
+                    text.append("\nWelcome " + user.getUsername() + "\n");
                 }else{
                     alertDialog();
                 }
@@ -52,15 +63,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     static boolean validate(String name, String pass) {
-        boolean match_user = false;
-        boolean match_pass = false;
-        
-        if(name.equals(credentials.get(0)) && pass.equals(credentials.get(1))){
-            match_user = true;
-            match_pass = true;
+        List<User> all_users = database.getAllUsers();
+
+        for(User u:all_users){
+            if ((u.getUsername()).equals(name) && (u.getPassword()).equals(pass)){
+                return true;
+            }
         }
 
-        return match_user && match_pass;
+        return false;
     }
 
     private void alertDialog(){
@@ -71,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int which) {
-
                     }
                 });
         AlertDialog alertDialog=dialog.create();

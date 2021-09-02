@@ -6,6 +6,8 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import java.util.List;
+
 @Database(entities = {User.class}, version = 1, exportSchema = false)
 public abstract class AppDB extends RoomDatabase {
 
@@ -33,5 +35,13 @@ public abstract class AppDB extends RoomDatabase {
                 user().insertUsers(admin);
             });
         }
+    }
+
+    public List<User> getAllUsers(){
+        return user().getAllUsers();
+    }
+
+    public List<User> getUserByName(String name){
+        return user().getUserByUsername(name);
     }
 }
