@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int which) {
+
                     }
                 });
         AlertDialog alertDialog=dialog.create();
