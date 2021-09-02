@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class LoginValidationTest {
     @Test
     public void correctCredentials() {
-        assertEquals(true, MainActivity.validate("Admin", "Pass"));
+        assertEquals(true, MainActivity.validate("admin", "admin"));
     }
 
     @Test
