@@ -3,7 +3,9 @@ package com.example.inspirationalanimals;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,8 +20,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText username;
     private EditText password;
     private Button login_button;
-    private TextView text;
     private static AppDB database;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
                 boolean isValid = validate(name, pass);
                 if(isValid){
-                    setContentView(R.layout.activity_list);
-                    text = findViewById(R.id.textView);
-                    List<User> user_data = database.getUserByName(name);
-                    User user = user_data.get(0);
-
-                    text.append("\nWelcome " + user.getUsername() + "\n");
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    startActivity(intent);
                 }else{
                     alertDialog();
                 }
@@ -78,4 +76,5 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alertDialog=dialog.create();
         alertDialog.show();
     }
+
 }
