@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,18 +20,20 @@ public class MainActivity extends AppCompatActivity {
     private EditText password;
     private Button login_button;
     private TextView text;
+    private TextView signUpLink;
     private static AppDB database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        database = AppDB.getInstance(this);
+        AppDB database = AppDB.getInstance(this);
         database.seed();
 
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         login_button = findViewById(R.id.login);
+        signUpLink = findViewById(R.id.signUpLink);
 
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +52,13 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     alertDialog();
                 }
+            }
+        });
+
+        signUpLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadSignupActivity(view);
             }
         });
     }
@@ -78,5 +88,11 @@ public class MainActivity extends AppCompatActivity {
                 });
         AlertDialog alertDialog=dialog.create();
         alertDialog.show();
+    }
+
+    private void loadSignupActivity(View view) {
+        Intent intent = SignUpActivity.getIntent(getApplicationContext());
+        startActivity(intent);
+
     }
 }
