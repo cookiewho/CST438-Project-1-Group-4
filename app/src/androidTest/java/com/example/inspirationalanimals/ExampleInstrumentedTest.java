@@ -23,4 +23,24 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.example.inspirationalanimals", appContext.getPackageName());
     }
+
+    @Test
+    public void DBCreatedTest() {
+        // Checking that DB is created
+    }
+
+    @Test
+    public void userCreationTest() {
+        // Mocking user being created
+    }
+
+    @Test
+    public void getUserTest() {
+        // checking if getUser works
+    }
+
+    @Test
+    public void updateUserTest() {
+        // Checking if users are able to be updated
+    }
 }
