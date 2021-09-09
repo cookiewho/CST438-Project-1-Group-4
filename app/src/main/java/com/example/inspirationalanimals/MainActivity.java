@@ -40,12 +40,31 @@ public class MainActivity extends AppCompatActivity {
                 String name = username.getText().toString();
                 String pass = password.getText().toString();
 
+                if(name.isEmpty() && pass.isEmpty()){
+                    username.setError("This field cannot be blank");
+                    password.setError("This field cannot be blank");
+                }
+
+                if (name.isEmpty()) {
+                    username.setError("This field cannot be blank");
+                }
+
+                if (pass.isEmpty()) {
+                    password.setError("This field cannot be blank");
+                }
+
                 boolean isValid = validate(name, pass);
                 if(isValid){
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     startActivity(intent);
                 }else{
                     alertDialog();
+                    boolean foundUser = findUser(name);
+                    if(!foundUser){
+                        username.setError("Your username is incorrect");
+                    } else {
+                        password.setError("Your password is incorrect");
+                    }
                 }
             }
         });
@@ -56,6 +75,18 @@ public class MainActivity extends AppCompatActivity {
 
         for(User u:all_users){
             if ((u.getUsername()).equals(name) && (u.getPassword()).equals(pass)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    static boolean findUser(String name){
+        List<User> all_users = database.getAllUsers();
+
+        for(User u:all_users){
+            if(u.getUsername().equals(name)){
                 return true;
             }
         }
