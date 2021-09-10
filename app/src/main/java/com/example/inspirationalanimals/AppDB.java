@@ -13,7 +13,7 @@ public abstract class AppDB extends RoomDatabase {
 
 
     private static AppDB sInstance;
-    public abstract UserDao user();
+    public abstract UserDAO user();
 
     public static synchronized AppDB getInstance(Context context) {
         if (sInstance == null) {
