@@ -7,7 +7,7 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public interface UserDao {
+public interface UserDAO {
 
     @Insert
     void addUser(User user);
