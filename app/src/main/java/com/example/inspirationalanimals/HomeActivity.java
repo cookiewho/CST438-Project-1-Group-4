@@ -17,8 +17,8 @@ public class HomeActivity extends AppCompatActivity {
         database = AppDB.getInstance(this);
         database.seed();
 
-        String current_username = getIntent().getStringExtra("CURRENT_USERNAME");
-        User current_user = (User) database.getUserByName(current_username);
+        String currentUsername = getIntent().getStringExtra("CURRENT_USERNAME");
+        User currentUser = (User) database.getUserByName(currentUsername);
     }
 
 
