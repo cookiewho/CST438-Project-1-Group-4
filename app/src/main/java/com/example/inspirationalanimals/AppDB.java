@@ -8,13 +8,13 @@ import androidx.room.RoomDatabase;
 
 import java.util.List;
 
-@Database(entities = {User.class, Cat.class}, version = 2, exportSchema = false)
+@Database(entities = {User.class, Dog.class, Cat.class}, version = 3, exportSchema = false)
 public abstract class AppDB extends RoomDatabase {
-
 
     private static AppDB sInstance;
     public abstract UserDAO user();
     public abstract CatDao cat();
+    public abstract DogDao dog();
 
     public static synchronized AppDB getInstance(Context context) {
         if (sInstance == null) {
@@ -34,6 +34,14 @@ public abstract class AppDB extends RoomDatabase {
                 User admin = new User("admin", "admin", "admin@test.com");
 
                 user().insertUsers(admin);
+            });
+        }
+
+        if (dog().count() == 0) {
+            runInTransaction(() -> {
+                Dog dummyDog = new Dog("https://images.dog.ceo/breeds/bullterrier-staffordshire/n02093256_1505.jpg", "success",  "A man with outward courage dares to die: a man with inner courage dares to live.", "Lao Tzu", "<blockquote>&ldquo;A man with outward courage dares to die: a man with inner courage dares to live.&rdquo; &mdash; <footer>Lao Tzu</footer></blockquote>");
+
+                dog().insertDogs(dummyDog);
             });
         }
 

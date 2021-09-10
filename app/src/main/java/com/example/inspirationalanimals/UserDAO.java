@@ -18,10 +18,8 @@ public interface UserDAO {
     @Query("SELECT * FROM users")
     List<User> getAllUsers();
 
-
     @Query("SELECT * FROM users WHERE username = :username")
     List<User> getUserByUsername(String username);
-
 
     @Query("UPDATE users SET password = :password WHERE username = :username")
     void update(String password, String username);
