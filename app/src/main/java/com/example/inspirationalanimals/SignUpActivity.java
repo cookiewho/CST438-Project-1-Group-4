@@ -42,14 +42,21 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                validateSignUpInfo(username.getText().toString(), email.getText().toString(), password.getText().toString(), passwordVerify.getText().toString());
+                boolean validInfo = validateSignUpInfo(errorMessage, username.getText().toString(), email.getText().toString(), password.getText().toString(), passwordVerify.getText().toString());
+                if(!validInfo){
+                    Toast toast = Toast.makeText(getApplicationContext(), "Sign up failed", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                else{
+                    Toast toast = Toast.makeText(getApplicationContext(), "Sign up successful", Toast.LENGTH_LONG);
+                    toast.show();
+                }
             }
         });
 
     }
 
-    protected boolean validateSignUpInfo(String username, String email, String password, String passwordVerify) {
+    protected static boolean validateSignUpInfo(TextView errorMessage, String username, String email, String password, String passwordVerify) {
 
         boolean validUsername = true;
         boolean validEmail = true;
@@ -71,16 +78,15 @@ public class SignUpActivity extends AppCompatActivity {
 
         if (validUsername && validEmail && validPassword) {
             database.addUser(username, password, email);
-            Toast.makeText(getApplicationContext(), "Sign Up successful", Toast.LENGTH_SHORT).show();
             return true;
         } else {
-            Toast.makeText(getApplicationContext(), "Unable to sign up but not legit", Toast.LENGTH_SHORT).show();
-            setErrorMessage(validUsername, validEmail, validPassword);
+            //Toast.makeText(getApplicationContext(), "Unable to sign up but not legit", Toast.LENGTH_SHORT).show();
+            setErrorMessage(errorMessage, validUsername, validEmail, validPassword);
             return false;
         }
     }
 
-    private void setErrorMessage(boolean validUsername, boolean validEmail, boolean validPassword) {
+    private static void setErrorMessage(TextView errorMessage, boolean validUsername, boolean validEmail, boolean validPassword) {
         String errorMessageText = "ERROR: ";
 
         if (!validUsername){
@@ -93,7 +99,6 @@ public class SignUpActivity extends AppCompatActivity {
             errorMessageText += "Passwords do not match. ";
         }
         errorMessage.setText(errorMessageText);
-        Toast.makeText(this.getApplicationContext(), "Unable to sign up", Toast.LENGTH_SHORT).show();
     }
 
 
