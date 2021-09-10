@@ -61,4 +61,9 @@ public abstract class AppDB extends RoomDatabase {
     public List<User> getUserByName(String name){
         return user().getUserByUsername(name);
     }
+
+    public void addUser(String username, String password, String email){
+        User newUser = new User(username, password, email);
+        user().addUser(newUser);
+    }
 }
