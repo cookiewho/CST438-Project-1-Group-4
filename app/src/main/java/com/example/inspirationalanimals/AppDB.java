@@ -8,12 +8,13 @@ import androidx.room.RoomDatabase;
 
 import java.util.List;
 
-@Database(entities = {User.class}, version = 1, exportSchema = false)
+@Database(entities = {User.class, Cat.class}, version = 2, exportSchema = false)
 public abstract class AppDB extends RoomDatabase {
 
 
     private static AppDB sInstance;
     public abstract UserDAO user();
+    public abstract CatDao cat();
 
     public static synchronized AppDB getInstance(Context context) {
         if (sInstance == null) {
@@ -33,6 +34,14 @@ public abstract class AppDB extends RoomDatabase {
                 User admin = new User("admin", "admin", "admin@test.com");
 
                 user().insertUsers(admin);
+            });
+        }
+
+        if (cat().count() == 0) {
+            runInTransaction(() -> {
+                Cat dummyCat = new Cat("https://cdn2.thecatapi.com/images/bj2.jpg", "Be royal in your own fashion: act like a king to be treated like one.", "Robert Greene", "<blockquote>&ldquo;Be royal in your own fashion: act like a king to be treated like one.&rdquo; &mdash; <footer>Robert Greene</footer></blockquote>");
+
+                cat().insertCats(dummyCat);
             });
         }
     }
