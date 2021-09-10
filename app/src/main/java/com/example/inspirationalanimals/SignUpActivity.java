@@ -53,14 +53,15 @@ public class SignUpActivity extends AppCompatActivity {
                 errorMessage.setBackgroundColor(getResources().getColor(bgColor));
 
                 boolean validInfo = validateSignUpInfo(errorMessage, username.getText().toString(), email.getText().toString(), password.getText().toString(), passwordVerify.getText().toString());
-                if(!validInfo){
-                    Toast toast = Toast.makeText(getApplicationContext(), "Sign up failed", Toast.LENGTH_LONG);
-                    toast.show();
+                Toast toast;
+                if (!validInfo){
+                    toast = Toast.makeText(getApplicationContext(), "Sign up failed", Toast.LENGTH_LONG);
                 }
-                else{
-                    Toast toast = Toast.makeText(getApplicationContext(), "Sign up successful", Toast.LENGTH_LONG);
-                    toast.show();
+                else {
+                    toast = Toast.makeText(getApplicationContext(), "Sign up successful", Toast.LENGTH_LONG);
+                    loadHomeActivity(view, username.getText().toString());
                 }
+                toast.show();
             }
         });
 
@@ -80,11 +81,6 @@ public class SignUpActivity extends AppCompatActivity {
             errorMessage.setBackgroundColor(parseColor("#f55159"));
             return false;
         }
-    }
-
-    public static Intent getIntent(Context context){
-        Intent intent = new Intent(context, SignUpActivity.class);
-        return intent;
     }
 
     public static String verifyUsername(String username){
@@ -145,5 +141,17 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         return passwordError;
+    }
+
+    public static Intent getIntent(Context context){
+        Intent intent = new Intent(context, SignUpActivity.class);
+        return intent;
+    }
+
+    private void loadHomeActivity(View view, String username) {
+        Intent intent = HomeActivity.getIntent(getApplicationContext());
+        intent.putExtra("CURRENT_USERNAME", username);
+        startActivity(intent);
+
     }
 }
