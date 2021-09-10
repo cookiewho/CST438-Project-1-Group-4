@@ -1,5 +1,7 @@
 package com.example.inspirationalanimals;
 
+import static android.graphics.Color.parseColor;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -12,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class SignUpActivity extends AppCompatActivity {
@@ -42,6 +46,12 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                int bgColor = android.R.color.background_light;
+
+                errorMessage.setText("");
+                errorMessage.setBackgroundColor(getResources().getColor(bgColor));
+
                 boolean validInfo = validateSignUpInfo(errorMessage, username.getText().toString(), email.getText().toString(), password.getText().toString(), passwordVerify.getText().toString());
                 if(!validInfo){
                     Toast toast = Toast.makeText(getApplicationContext(), "Sign up failed", Toast.LENGTH_LONG);
@@ -58,52 +68,82 @@ public class SignUpActivity extends AppCompatActivity {
 
     protected static boolean validateSignUpInfo(TextView errorMessage, String username, String email, String password, String passwordVerify) {
 
-        boolean validUsername = true;
-        boolean validEmail = true;
-        boolean validPassword = false;
+        String usernameErrorMessage = verifyUsername(username);
+        String emailErrorMessage = verifyEmail(email);
+        String passwordErrorMessage = verifyPassword(password, passwordVerify);
 
-        List<User> existingUsers = database.getAllUsers();
-
-        for (User user : existingUsers) {
-            if (username.equals(user.getUsername())) {
-                validUsername = false;
-            }
-            if (email.equals(user.getEmail())) {
-                validEmail = false;
-            }
-        }
-        if (password.equals(passwordVerify) && (password.length() != 0)) {
-            validPassword = true;
-        }
-
-        if (validUsername && validEmail && validPassword) {
+        if (usernameErrorMessage.isEmpty() && emailErrorMessage.isEmpty() && passwordErrorMessage.isEmpty()) {
             database.addUser(username, password, email);
             return true;
         } else {
-            //Toast.makeText(getApplicationContext(), "Unable to sign up but not legit", Toast.LENGTH_SHORT).show();
-            setErrorMessage(errorMessage, validUsername, validEmail, validPassword);
+            errorMessage.setText(String.format("Error: %s%s%s", usernameErrorMessage, emailErrorMessage, passwordErrorMessage));
+            errorMessage.setBackgroundColor(parseColor("#f55159"));
             return false;
         }
     }
 
-    private static void setErrorMessage(TextView errorMessage, boolean validUsername, boolean validEmail, boolean validPassword) {
-        String errorMessageText = "ERROR: ";
-
-        if (!validUsername){
-            errorMessageText += "Username already in use. ";
-        }
-        if (!validEmail){
-            errorMessageText += "Email already in use. ";
-        }
-        if (!validPassword){
-            errorMessageText += "Passwords do not match. ";
-        }
-        errorMessage.setText(errorMessageText);
-    }
-
-
     public static Intent getIntent(Context context){
         Intent intent = new Intent(context, SignUpActivity.class);
         return intent;
+    }
+
+    public static String verifyUsername(String username){
+        String usernameError = "";
+        if (username.length() == 0) {
+            usernameError += "Username is empty. ";
+        } else if (username.length() > 20) {
+            usernameError += "Username is too long. ";
+        } else {
+            List<User> existingUsers = database.getAllUsers();
+
+            for (User user : existingUsers) {
+                if (username.equals(user.getUsername())) {
+                    usernameError += "Username already in use. ";
+                    break;
+                }
+            }
+        }
+
+        return usernameError;
+    }
+
+    public static String verifyEmail(String email){
+        String emailError = "";
+
+        Pattern p = Pattern.compile(".+@.*[A-Za-z]+\\.[A-Za-z]+");
+        Matcher m = p.matcher(email);
+
+        if (email.length() == 0) {
+            emailError += "Email is empty. ";
+        } else if (!m.matches()) {
+            emailError += "Email is not valid. ";
+        }
+        else {
+            List<User> existingUsers = database.getAllUsers();
+
+            for (User user : existingUsers) {
+                if (emailError.equals(user.getEmail())) {
+                    emailError += "Email already in use. ";
+                    break;
+                }
+            }
+        }
+
+        return emailError;
+    }
+
+    public static String verifyPassword(String password, String passwordVerify){
+        String passwordError = "";
+
+        if (password.length() == 0) {
+            passwordError += "Password is empty. ";
+        } else if (password.length() < 6) {
+            passwordError += "Password is too short. ";
+        }
+        else if (!password.equals(passwordVerify)) {
+            passwordError += "Passwords do not match. ";
+        }
+
+        return passwordError;
     }
 }

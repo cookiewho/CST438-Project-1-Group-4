@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">InspirationalAnimals</string>
+    <string name="sign_up_link_name">Don\'t have an account? <b><u>Create one</u></b></string>
 </resources>
