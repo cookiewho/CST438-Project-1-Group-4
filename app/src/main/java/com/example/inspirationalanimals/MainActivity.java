@@ -3,6 +3,7 @@ package com.example.inspirationalanimals;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView signUpLink;
     private static AppDB database;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,16 +43,31 @@ public class MainActivity extends AppCompatActivity {
                 String name = username.getText().toString();
                 String pass = password.getText().toString();
 
+                if(name.isEmpty() && pass.isEmpty()){
+                    username.setError("This field cannot be blank");
+                    password.setError("This field cannot be blank");
+                }
+
+                if (name.isEmpty()) {
+                    username.setError("This field cannot be blank");
+                }
+
+                if (pass.isEmpty()) {
+                    password.setError("This field cannot be blank");
+                }
+
                 boolean isValid = validate(name, pass);
                 if(isValid){
-                    setContentView(R.layout.activity_list);
-                    text = findViewById(R.id.textView);
-                    List<User> user_data = database.getUserByName(name);
-                    User user = user_data.get(0);
-
-                    text.append("\nWelcome " + user.getUsername() + "\n");
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    startActivity(intent);
                 }else{
                     alertDialog();
+                    boolean foundUser = findUser(name);
+                    if(!foundUser){
+                        username.setError("Your username is incorrect");
+                    } else {
+                        password.setError("Your password is incorrect");
+                    }
                 }
             }
         });
@@ -68,6 +85,18 @@ public class MainActivity extends AppCompatActivity {
 
         for(User u:all_users){
             if ((u.getUsername()).equals(name) && (u.getPassword()).equals(pass)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    static boolean findUser(String name){
+        List<User> all_users = database.getAllUsers();
+
+        for(User u:all_users){
+            if(u.getUsername().equals(name)){
                 return true;
             }
         }
@@ -95,4 +124,5 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
 }

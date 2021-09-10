@@ -20,6 +20,14 @@
             android:name=".SignUpActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize"/>
+
+        <uses-library android:name="android.test.runner"
+            android:required="false" />
+        <uses-library android:name="android.test.base"
+            android:required="false" />
+        <uses-library android:name="android.test.mock"
+            android:required="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -29,6 +37,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".HomeActivity">
         </activity>
     </application>
 

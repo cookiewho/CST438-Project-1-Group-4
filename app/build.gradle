@@ -4,6 +4,9 @@ plugins {
 
 android {
     compileSdk 31
+    useLibrary 'android.test.runner'
+    useLibrary 'android.test.base'
+    useLibrary 'android.test.mock'
 
     defaultConfig {
         applicationId "com.example.inspirationalanimals"
@@ -28,7 +31,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.room:room-common:2.2.6'
     def room_version = "2.3.0"
     implementation "androidx.room:room-runtime:$room_version"
@@ -42,8 +44,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    
+
     // core library
     androidTestImplementation 'androidx.test:core:1.4.0'
     // android junit runner/rules
