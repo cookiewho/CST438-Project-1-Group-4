@@ -4,8 +4,16 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity(tableName = "dogs")
 public class Dog {
+    String picture_path;
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -31,6 +39,19 @@ public class Dog {
         this.q = q;
         this.a = a;
         this.h = h;
+    }
+
+
+    public Dog(JSONObject jsonObject) throws JSONException {
+        picture_path = jsonObject.getString("message");
+    }
+    //this bit is going to be adding dog objects into a list that will later be used to populate the recycler view
+    public static List<Dog> fromJSONArray(JSONArray dogJSONArray) throws JSONException {
+        List<Dog> dogs = new ArrayList<>();
+        for (int i =0; i < dogJSONArray.length(); i++){
+            dogs.add(new Dog(dogJSONArray.getJSONObject(i)));
+        }
+        return dogs;
     }
 
     public int getId() {

@@ -1,6 +1,7 @@
 package com.example.inspirationalanimals.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Log.d("Inspiration Adapter", "onBindViewer" + position);
         Quote quote = quotes.get(position);
         holder.bind(quote);
     }
@@ -55,7 +57,7 @@ public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.
         }
 
         public void bind(Quote quote) {
-            tvInspirationalQuote.setText(quote.getQuote());
+            tvInspirationalQuote.setText(quote.getQuotes());
         }
     }
 }

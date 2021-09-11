@@ -6,7 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface jsonAPI {
-    @GET("")
+    @GET("quotes")
     Call<List<Quote>>getQuotes();
 
 }

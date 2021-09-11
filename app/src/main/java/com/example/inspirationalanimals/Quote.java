@@ -13,7 +13,7 @@ public class Quote {
     @SerializedName("q")
     private String quoteString;
 
-    public String getQuote() {
+    public String getQuotes() {
         return quoteString;
     }
 }
