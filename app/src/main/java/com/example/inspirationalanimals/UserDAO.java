@@ -7,7 +7,7 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public interface UserDao {
+public interface UserDAO {
 
     @Insert
     void addUser(User user);
@@ -18,10 +18,8 @@ public interface UserDao {
     @Query("SELECT * FROM users")
     List<User> getAllUsers();
 
-
     @Query("SELECT * FROM users WHERE username = :username")
     List<User> getUserByUsername(String username);
-
 
     @Query("UPDATE users SET password = :password WHERE username = :username")
     void update(String password, String username);
