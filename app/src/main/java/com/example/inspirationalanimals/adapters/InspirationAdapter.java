@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,18 +35,27 @@ public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        Quote quote = quotes.get(position);
+        holder.bind(quote);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return quotes.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        RelativeLayout container;
+        TextView tvInspirationalQuote;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            tvInspirationalQuote =  itemView.findViewById(R.id.tvInspirationalQuote);
+            container = itemView.findViewById(R.id.container);
+        }
+
+        public void bind(Quote quote) {
+            tvInspirationalQuote.setText(quote.getQuote());
         }
     }
 }
