@@ -32,8 +32,7 @@ public abstract class AppDB extends RoomDatabase {
         if (user().count() == 0) {
             runInTransaction(() -> {
                 User admin = new User("admin", "admin", "admin@test.com");
-
-                user().insertUsers(admin);
+                user().addUser(admin);
             });
         }
 

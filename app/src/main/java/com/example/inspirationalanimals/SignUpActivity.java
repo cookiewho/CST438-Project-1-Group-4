@@ -152,6 +152,5 @@ public class SignUpActivity extends AppCompatActivity {
         Intent intent = HomeActivity.getIntent(getApplicationContext());
         intent.putExtra("CURRENT_USERNAME", username);
         startActivity(intent);
-
     }
 }
