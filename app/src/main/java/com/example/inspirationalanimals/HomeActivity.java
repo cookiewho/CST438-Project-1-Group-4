@@ -43,16 +43,23 @@ public class HomeActivity extends AppCompatActivity {
         cats = new ArrayList<>();
         dogs = new ArrayList<>();
 
-        final InspirationAdapter inspirationAdapter = new InspirationAdapter(this, quotes);
+        final InspirationAdapter inspirationAdapter = new InspirationAdapter(this, quotes, dogs);
         //set adapter for the recycler view
         rv.setAdapter(inspirationAdapter);
         //sets layout manager for the recycler view
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        //call the APIs
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://zenquotes.io/api/quotes/").addConverterFactory(GsonConverterFactory.create()).build();
+        //Quote API
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://zenquotes.io/api/quotes/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
         jsonAPI jsonAPI = retrofit.create(jsonAPI.class);
         Call<List<Quote>> call = jsonAPI.getQuotes();
+        //Dog API
+        Retrofit retrofit1 = new Retrofit.Builder().baseUrl("https://dog.ceo/api/breeds/image/random/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Call<List<Dog>> call1 = jsonAPI.getDogs();
 
         call.enqueue(new Callback<List<Quote>>() {
             @Override
@@ -72,6 +79,26 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Quote>> call, Throwable t) {
                 Log.d("error",t.getMessage());
+            }
+        });
+        call1.enqueue(new Callback<List<Dog>>() {
+            @Override
+            public void onResponse(Call<List<Dog>> call, Response<List<Dog>> response) {
+                if (!response.isSuccessful()) {
+                    Log.d("Response", "Response is outside of the 200-300 range!");
+                    return;
+                }
+                for (Dog dog : response.body()) {
+                    Log.d("HOME", dog.getPicture_path());
+                    dogs.add(dog);
+                    inspirationAdapter.notifyDataSetChanged();
+                }
+                Log.d("HOME", String.valueOf(dogs.size()));
+            }
+
+            @Override
+            public void onFailure(Call<List<Dog>> call, Throwable t) {
+                Log.d("ERROR", t.getMessage());
             }
         });
     }

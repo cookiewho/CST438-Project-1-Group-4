@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,7 +15,11 @@ import java.util.List;
 
 @Entity(tableName = "dogs")
 public class Dog {
+    @SerializedName("message")
     String picture_path;
+    public String getPicture_path(){
+        return picture_path;
+    }
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -39,6 +45,9 @@ public class Dog {
         this.q = q;
         this.a = a;
         this.h = h;
+    }
+    public Dog(String url){
+        this.picture_path = url;
     }
 
 
