@@ -24,8 +24,8 @@ public class Dog {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @ColumnInfo(name = "message")
-    private String message;
+    @ColumnInfo(name = "messageFromApi")
+    private String messageFromApi;
 
     @ColumnInfo(name = "status")
     private String status;
@@ -39,8 +39,8 @@ public class Dog {
     @ColumnInfo(name = "h")
     private String h;
 
-    public Dog(String message, String status, String q, String a, String h) {
-        this.message = message;
+    public Dog(String messageFromApi, String status, String q, String a, String h) {
+        this.messageFromApi = messageFromApi;
         this.status = status;
         this.q = q;
         this.a = a;
@@ -71,12 +71,12 @@ public class Dog {
         this.id = id;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMessageFromApi() {
+        return messageFromApi;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMessageFromApi(String message) {
+        this.messageFromApi = message;
     }
 
     public String getStatus() {
