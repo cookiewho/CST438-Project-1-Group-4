@@ -16,9 +16,10 @@ import java.util.List;
 @Entity(tableName = "dogs")
 public class Dog {
     @SerializedName("message")
-    String picture_path;
-    public String getPicture_path(){
-        return picture_path;
+    String picturePath;
+
+    public String getPicturePaths(){
+        return picturePath;
     }
 
     @PrimaryKey(autoGenerate = true)
@@ -47,21 +48,9 @@ public class Dog {
         this.h = h;
     }
     public Dog(String url){
-        this.picture_path = url;
+        this.picturePath = url;
     }
 
-
-    public Dog(JSONObject jsonObject) throws JSONException {
-        picture_path = jsonObject.getString("message");
-    }
-    //this bit is going to be adding dog objects into a list that will later be used to populate the recycler view
-    public static List<Dog> fromJSONArray(JSONArray dogJSONArray) throws JSONException {
-        List<Dog> dogs = new ArrayList<>();
-        for (int i =0; i < dogJSONArray.length(); i++){
-            dogs.add(new Dog(dogJSONArray.getJSONObject(i)));
-        }
-        return dogs;
-    }
 
     public int getId() {
         return id;

@@ -53,34 +53,33 @@ public class HomeActivity extends AppCompatActivity {
         Retrofit retrofit = new Retrofit.Builder().baseUrl("https://zenquotes.io/api/quotes/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        jsonAPI jsonAPI = retrofit.create(jsonAPI.class);
-        Call<List<Quote>> call = jsonAPI.getQuotes();
         //Dog API
         Retrofit retrofit1 = new Retrofit.Builder().baseUrl("https://dog.ceo/api/breeds/image/random/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+        jsonAPI jsonAPI = retrofit.create(jsonAPI.class);
+        Call<List<Quote>> call = jsonAPI.getQuotes();
         Call<List<Dog>> call1 = jsonAPI.getDogs();
 
-        call.enqueue(new Callback<List<Quote>>() {
-            @Override
-            public void onResponse(Call<List<Quote>> call, Response<List<Quote>> response) {
-                if (!response.isSuccessful()) {
-                    Log.d("Response", "Response is outside of the 200-300 range!");
-                    return;
-                }
-                for (Quote quote : response.body()) {
-                    Log.d("HOME", quote.getQuotes());
-                    quotes.add(quote);
-                    inspirationAdapter.notifyDataSetChanged();
-                }
-                Log.d("HOME", String.valueOf(quotes.size()));
-            }
-
-            @Override
-            public void onFailure(Call<List<Quote>> call, Throwable t) {
-                Log.d("error",t.getMessage());
-            }
-        });
+//        call.enqueue(new Callback<List<Quote>>() {
+//            @Override
+//            public void onResponse(Call<List<Quote>> call, Response<List<Quote>> response) {
+//                if (!response.isSuccessful()) {
+//                    Log.d("Response", "Response is outside of the 200-300 range!");
+//                    return;
+//                }
+//                for (Quote quote : response.body()) {
+//                    Log.d("HOME_QUOTE", quote.getQuotes());
+//                    quotes.add(quote);
+//                    inspirationAdapter.notifyDataSetChanged();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Quote>> call, Throwable t) {
+//                Log.d("error",t.getMessage());
+//            }
+//        });
         call1.enqueue(new Callback<List<Dog>>() {
             @Override
             public void onResponse(Call<List<Dog>> call, Response<List<Dog>> response) {
@@ -89,7 +88,9 @@ public class HomeActivity extends AppCompatActivity {
                     return;
                 }
                 for (Dog dog : response.body()) {
-                    Log.d("HOME", dog.getPicture_path());
+                    if(dog.getPicturePaths() != null){
+                        Log.d("HOME_DOG", dog.getPicturePaths());
+                    }
                     dogs.add(dog);
                     inspirationAdapter.notifyDataSetChanged();
                 }

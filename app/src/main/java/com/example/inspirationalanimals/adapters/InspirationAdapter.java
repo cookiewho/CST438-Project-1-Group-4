@@ -40,9 +40,10 @@ public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d("Inspiration Adapter", "onBindViewer" + position);
-        Quote quote = quotes.get(position);
+//        Quote quote = quotes.get(position);
         Dog dog = dogImgPaths.get(position);
-        holder.bind(quote, dog);
+        Log.d("dog", String.valueOf(dog));
+        holder.bind(dog);
     }
 
     @Override
@@ -62,10 +63,11 @@ public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.
             container = itemView.findViewById(R.id.container);
         }
 
-        public void bind(Quote quote, Dog dog) {
-            tvInspirationalQuote.setText(quote.getQuotes());
+        public void bind(Dog dog) {
+//            tvInspirationalQuote.setText(quote.getQuotes());
             String imgURL;
-            imgURL = dog.getPicture_path();
+            imgURL = dog.getPicturePaths();
+            Log.d("GLIDE", imgURL);
             Glide.with(context).load(imgURL).into(ivAnimal);
         }
     }
