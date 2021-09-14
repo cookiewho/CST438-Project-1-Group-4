@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,7 +36,8 @@ public class HomeActivity extends AppCompatActivity {
         database.seed();
 
         String currentUsername = getIntent().getStringExtra("CURRENT_USERNAME");
-//        User currentUser = (User) database.getUserByName(currentUsername);
+        User currentUser = database.getUserByName(currentUsername).get(0);
+        Toast.makeText(getApplicationContext(), "Hello "+ currentUsername + "!", Toast.LENGTH_SHORT).show();
 
 
         RecyclerView rv = findViewById(R.id.rvAnimal);
@@ -75,8 +77,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     public static Intent getIntent(Context context){
         Intent intent = new Intent(context, HomeActivity.class);

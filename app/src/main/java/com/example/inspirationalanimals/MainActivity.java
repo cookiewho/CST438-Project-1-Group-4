@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        AppDB database = AppDB.getInstance(this);
+        database = AppDB.getInstance(this);
         database.seed();
 
         username = findViewById(R.id.username);
@@ -59,8 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
                 boolean isValid = validate(name, pass);
                 if(isValid){
-                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                    startActivity(intent);
+                    loadHomeActivity(view, username.getText().toString());
                 }else{
                     alertDialog();
                     boolean foundUser = findUser(name);
@@ -123,7 +122,12 @@ public class MainActivity extends AppCompatActivity {
     private void loadSignupActivity(View view) {
         Intent intent = SignUpActivity.getIntent(getApplicationContext());
         startActivity(intent);
+    }
 
+    private void loadHomeActivity(View view, String username) {
+        Intent intent = HomeActivity.getIntent(getApplicationContext());
+        intent.putExtra("CURRENT_USERNAME", username);
+        startActivity(intent);
     }
 
 }
