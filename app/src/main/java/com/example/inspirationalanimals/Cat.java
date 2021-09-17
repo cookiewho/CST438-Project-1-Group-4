@@ -1,9 +1,8 @@
 package com.example.inspirationalanimals;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import com.google.gson.annotations.SerializedName;
 
+<<<<<<< HEAD
 import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONArray;
@@ -90,9 +89,14 @@ public class Cat {
     public String getH() {
         return h;
     }
+=======
+public class Cat {
+    @SerializedName("url")
+    private String catString;
+>>>>>>> 183bf007f2fdc07c39b5b40cee3a6cccc54512b8
 
-    public void setH(String h) {
-        this.h = h;
+    public String getCats() {
+        return catString;
     }
 
 }
