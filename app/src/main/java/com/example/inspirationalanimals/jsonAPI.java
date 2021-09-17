@@ -11,5 +11,5 @@ public interface jsonAPI {
     @GET("50")
     Call<Dog>getDogs();
     @GET("search?limit=50")
-    Call<Cat>getCats();
+    Call<List<Cat>>getCats();
 }

@@ -26,7 +26,7 @@ public class HomeActivity extends AppCompatActivity {
     private static AppDB database;
     List<Quote> quotes;
     List<String> dogs;
-    List<String> cats;
+    List<Cat> cats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +101,32 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Dog> call, Throwable t) {
+                Log.d("ERROR", t.getMessage());
+            }
+        });
+        //Cat API
+        Retrofit retrofit2 = new Retrofit.Builder().baseUrl("https://api.thecatapi.com/v1/images/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        jsonAPI jsonAPI2 = retrofit2.create(jsonAPI.class);
+        Call<List<Cat>> call2 = jsonAPI2.getCats();
+
+        call2.enqueue(new Callback<List<Cat>>() {
+            @Override
+            public void onResponse(Call<List<Cat>> call, Response<List<Cat>> response) {
+                if (!response.isSuccessful()) {
+                    Log.d("Response", "Response is outside of the 200-300 range!");
+                    return;
+                }
+                for(Cat cat: response.body()){
+                    cats.add(cat);
+                    inspirationAdapter.notifyDataSetChanged();
+                    Log.d("CATS_ONLY", cat.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Cat>> call, Throwable t) {
                 Log.d("ERROR", t.getMessage());
             }
         });

@@ -24,9 +24,9 @@ public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.
     Context context;
     public List<Quote> quotes;
     public List <String> dogs;
-    public List <String> cats;
+    public List <Cat> cats;
 
-    public InspirationAdapter(Context context, List<Quote> quotes, List <String> dogs, List <String> cats){
+    public InspirationAdapter(Context context, List<Quote> quotes, List <String> dogs, List <Cat> cats){
         this.context = context;
         this.dogs = dogs;
         this.quotes = quotes;
@@ -44,7 +44,7 @@ public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Quote quote = quotes.get(position);
         String dog = "https://images.dog.ceo/breeds/spaniel-brittany/n02101388_1252.jpg";
-        String cat = "";
+        Cat cat;
         if(dogs.size() > 0) {
             dog = dogs.get(position);
             holder.bind(quote, dog);
@@ -77,6 +77,13 @@ public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.
             tvInspirationalQuote.setText(quote.getQuotes());
             String imgURL;
             imgURL = dog;
+            Log.d("GLIDE", imgURL);
+            Glide.with(context).load(imgURL).into(ivAnimal);
+        }
+        public void bind(Quote quote, Cat cat) {
+            tvInspirationalQuote.setText(quote.getQuotes());
+            String imgURL;
+            imgURL = cat.getCats();
             Log.d("GLIDE", imgURL);
             Glide.with(context).load(imgURL).into(ivAnimal);
         }
