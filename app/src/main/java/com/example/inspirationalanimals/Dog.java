@@ -16,10 +16,10 @@ import java.util.List;
 @Entity(tableName = "dogs")
 public class Dog {
     @SerializedName("message")
-    String picturePath;
+    ArrayList<Dog> dogList;
 
-    public String getPicturePaths(){
-        return picturePath;
+    public ArrayList<Dog> getDogList(){
+        return dogList;
     }
 
     @PrimaryKey(autoGenerate = true)
@@ -47,9 +47,7 @@ public class Dog {
         this.a = a;
         this.h = h;
     }
-    public Dog(String url){
-        this.picturePath = url;
-    }
+
 
 
     public int getId() {

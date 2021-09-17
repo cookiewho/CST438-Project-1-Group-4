@@ -9,5 +9,5 @@ public interface jsonAPI {
     @GET("quotes")
     Call<List<Quote>>getQuotes();
     @GET("50")
-    Call<List<Dog>>getDogs();
+    Call<Dog>getDogPicturePaths();
 }

@@ -55,13 +55,8 @@ public class HomeActivity extends AppCompatActivity {
         Retrofit retrofit = new Retrofit.Builder().baseUrl("https://zenquotes.io/api/quotes/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        //Dog API
-        Retrofit retrofit1 = new Retrofit.Builder().baseUrl("https://dog.ceo/api/breeds/image/random/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
         jsonAPI jsonAPI = retrofit.create(jsonAPI.class);
         Call<List<Quote>> call = jsonAPI.getQuotes();
-        Call<List<Dog>> call1 = jsonAPI.getDogs();
 
 //        call.enqueue(new Callback<List<Quote>>() {
 //            @Override
@@ -82,25 +77,26 @@ public class HomeActivity extends AppCompatActivity {
 //                Log.d("error",t.getMessage());
 //            }
 //        });
-        call1.enqueue(new Callback<List<Dog>>() {
+
+        //Dog API
+        Retrofit retrofit1 = new Retrofit.Builder().baseUrl("https://dog.ceo/api/breeds/image/random/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        jsonAPI jsonAPI1 = retrofit1.create(jsonAPI.class);
+        Call<Dog> call1 = jsonAPI1.getDogPicturePaths();
+
+        call1.enqueue(new Callback<Dog>() {
             @Override
-            public void onResponse(Call<List<Dog>> call, Response<List<Dog>> response) {
+            public void onResponse(Call<Dog> call, Response<Dog> response) {
                 if (!response.isSuccessful()) {
                     Log.d("Response", "Response is outside of the 200-300 range!");
                     return;
                 }
-                for (Dog dog : response.body()) {
-                    if(dog.getPicturePaths() != null){
-                        Log.d("HOME_DOG", dog.getPicturePaths());
-                    }
-                    dogs.add(dog);
-                    inspirationAdapter.notifyDataSetChanged();
-                }
-                Log.d("HOME", String.valueOf(dogs.size()));
+                    Log.d("test",response.body().toString());
             }
 
             @Override
-            public void onFailure(Call<List<Dog>> call, Throwable t) {
+            public void onFailure(Call<Dog> call, Throwable t) {
                 Log.d("ERROR", t.getMessage());
             }
         });

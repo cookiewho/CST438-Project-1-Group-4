@@ -22,11 +22,11 @@ import java.util.List;
 public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.ViewHolder> {
     Context context;
     public List<Quote> quotes;
-    public List <Dog> dogImgPaths;
+    public List <Dog> dogs;
 
     public InspirationAdapter(Context context, List<Quote> quotes, List <Dog> dogs){
         this.context = context;
-        this.dogImgPaths = dogs;
+        this.dogs = dogs;
         this.quotes = quotes;
     }
 
@@ -39,10 +39,8 @@ public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d("Inspiration Adapter", "onBindViewer" + position);
 //        Quote quote = quotes.get(position);
-        Dog dog = dogImgPaths.get(position);
-        Log.d("dog", String.valueOf(dog));
+        Dog dog = dogs.get(position);
         holder.bind(dog);
     }
 
@@ -63,12 +61,12 @@ public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.
             container = itemView.findViewById(R.id.container);
         }
 
-        public void bind(Dog dog) {
+        public void bind( Dog dog) {
 //            tvInspirationalQuote.setText(quote.getQuotes());
             String imgURL;
-            imgURL = dog.getPicturePaths();
-            Log.d("GLIDE", imgURL);
-            Glide.with(context).load(imgURL).into(ivAnimal);
+//            imgURL = dog.getDogPicturePaths();
+//            Log.d("GLIDE", imgURL);
+//            Glide.with(context).load(imgURL).into(ivAnimal);
         }
     }
 }
