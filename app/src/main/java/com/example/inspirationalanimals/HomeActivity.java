@@ -66,7 +66,6 @@ public class HomeActivity extends AppCompatActivity {
                     return;
                 }
                 for (Quote quote : response.body()) {
-                    Log.d("HOME_QUOTE", quote.getQuotes());
                     quotes.add(quote);
                     inspirationAdapter.notifyDataSetChanged();
                 }
@@ -121,7 +120,6 @@ public class HomeActivity extends AppCompatActivity {
                 for(Cat cat: response.body()){
                     cats.add(cat);
                     inspirationAdapter.notifyDataSetChanged();
-                    Log.d("CATS_ONLY", cat.toString());
                 }
             }
 
