@@ -12,6 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.inspirationalanimals.Cat;
+import com.example.inspirationalanimals.Dog;
 import com.example.inspirationalanimals.Quote;
 import com.example.inspirationalanimals.R;
 
@@ -20,11 +23,14 @@ import java.util.List;
 public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.ViewHolder> {
     Context context;
     public List<Quote> quotes;
-    public ImageView img;
+    public List <String> dogs;
+    public List <String> cats;
 
-    public InspirationAdapter(Context context, List<Quote> quotes){
+    public InspirationAdapter(Context context, List<Quote> quotes, List <String> dogs, List <String> cats){
         this.context = context;
+        this.dogs = dogs;
         this.quotes = quotes;
+        this.cats = cats;
     }
 
     @NonNull
@@ -36,9 +42,18 @@ public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d("Inspiration Adapter", "onBindViewer" + position);
         Quote quote = quotes.get(position);
-        holder.bind(quote);
+        String dog = "https://images.dog.ceo/breeds/spaniel-brittany/n02101388_1252.jpg";
+        String cat = "";
+        if(dogs.size() > 0) {
+            dog = dogs.get(position);
+            holder.bind(quote, dog);
+        }
+        if(cats.size()>0){
+            cat = cats.get(position);
+            holder.bind(quote, cat);
+        }
+
     }
 
     @Override
@@ -49,15 +64,21 @@ public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         RelativeLayout container;
         TextView tvInspirationalQuote;
+        ImageView ivAnimal;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvInspirationalQuote =  itemView.findViewById(R.id.tvInspirationalQuote);
+            ivAnimal = itemView.findViewById(R.id.ivAnimal);
             container = itemView.findViewById(R.id.container);
         }
 
-        public void bind(Quote quote) {
+        public void bind(Quote quote, String dog) {
             tvInspirationalQuote.setText(quote.getQuotes());
+            String imgURL;
+            imgURL = dog;
+            Log.d("GLIDE", imgURL);
+            Glide.with(context).load(imgURL).into(ivAnimal);
         }
     }
 }

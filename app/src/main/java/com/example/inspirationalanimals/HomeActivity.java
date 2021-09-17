@@ -25,8 +25,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private static AppDB database;
     List<Quote> quotes;
-    List<Dog> dogs;
-    List<Cat> cats;
+    List<String> dogs;
+    List<String> cats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +45,16 @@ public class HomeActivity extends AppCompatActivity {
         cats = new ArrayList<>();
         dogs = new ArrayList<>();
 
-        final InspirationAdapter inspirationAdapter = new InspirationAdapter(this, quotes);
+        final InspirationAdapter inspirationAdapter = new InspirationAdapter(this, quotes, dogs, cats);
         //set adapter for the recycler view
         rv.setAdapter(inspirationAdapter);
         //sets layout manager for the recycler view
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        //call the APIs
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://zenquotes.io/api/quotes/").addConverterFactory(GsonConverterFactory.create()).build();
+        //Quote API
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://zenquotes.io/api/quotes/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
         jsonAPI jsonAPI = retrofit.create(jsonAPI.class);
         Call<List<Quote>> call = jsonAPI.getQuotes();
 
@@ -64,16 +66,42 @@ public class HomeActivity extends AppCompatActivity {
                     return;
                 }
                 for (Quote quote : response.body()) {
-                    Log.d("HOME", quote.getQuotes());
+                    Log.d("HOME_QUOTE", quote.getQuotes());
                     quotes.add(quote);
                     inspirationAdapter.notifyDataSetChanged();
                 }
-                Log.d("HOME", String.valueOf(quotes.size()));
             }
 
             @Override
             public void onFailure(Call<List<Quote>> call, Throwable t) {
                 Log.d("error",t.getMessage());
+            }
+        });
+
+        //Dog API
+        Retrofit retrofit1 = new Retrofit.Builder().baseUrl("https://dog.ceo/api/breeds/image/random/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        jsonAPI jsonAPI1 = retrofit1.create(jsonAPI.class);
+        Call<Dog> call1 = jsonAPI1.getDogs();
+
+        call1.enqueue(new Callback<Dog>() {
+            @Override
+            public void onResponse(Call<Dog> call, Response<Dog> response) {
+                if (!response.isSuccessful()) {
+                    Log.d("Response", "Response is outside of the 200-300 range!");
+                    return;
+                }
+                for(String dog: response.body().getDogs()){
+                    Log.d("test",dog);
+                    dogs.add(dog);
+                    inspirationAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Dog> call, Throwable t) {
+                Log.d("ERROR", t.getMessage());
             }
         });
     }
