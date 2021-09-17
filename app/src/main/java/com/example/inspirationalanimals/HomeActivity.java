@@ -45,7 +45,7 @@ public class HomeActivity extends AppCompatActivity {
         cats = new ArrayList<>();
         dogs = new ArrayList<>();
 
-        final InspirationAdapter inspirationAdapter = new InspirationAdapter(this, quotes, dogs);
+        final InspirationAdapter inspirationAdapter = new InspirationAdapter(this, quotes, dogs, cats);
         //set adapter for the recycler view
         rv.setAdapter(inspirationAdapter);
         //sets layout manager for the recycler view
@@ -78,16 +78,17 @@ public class HomeActivity extends AppCompatActivity {
 //            }
 //        });
 
-        //Dog API
-        Retrofit retrofit1 = new Retrofit.Builder().baseUrl("https://dog.ceo/api/breeds/image/random/")
+        //Cat API
+        Retrofit retrofit1 = new Retrofit.Builder().baseUrl("https://api.thecatapi.com/v1/images/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         jsonAPI jsonAPI1 = retrofit1.create(jsonAPI.class);
-        Call<Dog> call1 = jsonAPI1.getDogPicturePaths();
+        Log.d("hi", jsonAPI1.getCats().toString());
+        Call<List<Cat>> call1 = jsonAPI1.getCats();
 
-        call1.enqueue(new Callback<Dog>() {
+        call1.enqueue(new Callback<List<Cat>>() {
             @Override
-            public void onResponse(Call<Dog> call, Response<Dog> response) {
+            public void onResponse(Call<List<Cat>> call, Response<List<Cat>> response) {
                 if (!response.isSuccessful()) {
                     Log.d("Response", "Response is outside of the 200-300 range!");
                     return;
@@ -96,7 +97,7 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Dog> call, Throwable t) {
+            public void onFailure(Call<List<Cat>> call, Throwable t) {
                 Log.d("ERROR", t.getMessage());
             }
         });

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.inspirationalanimals.Cat;
 import com.example.inspirationalanimals.Dog;
 import com.example.inspirationalanimals.Quote;
 import com.example.inspirationalanimals.R;
@@ -23,11 +24,13 @@ public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.
     Context context;
     public List<Quote> quotes;
     public List <Dog> dogs;
+    public List <Cat> cats;
 
-    public InspirationAdapter(Context context, List<Quote> quotes, List <Dog> dogs){
+    public InspirationAdapter(Context context, List<Quote> quotes, List <Dog> dogs, List <Cat> cats){
         this.context = context;
         this.dogs = dogs;
         this.quotes = quotes;
+        this.cats = cats;
     }
 
     @NonNull
@@ -40,8 +43,8 @@ public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 //        Quote quote = quotes.get(position);
-        Dog dog = dogs.get(position);
-        holder.bind(dog);
+        Cat cat = cats.get(position);
+        holder.bind(cat);
     }
 
     @Override
@@ -61,12 +64,12 @@ public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.
             container = itemView.findViewById(R.id.container);
         }
 
-        public void bind( Dog dog) {
+        public void bind( Cat cat) {
 //            tvInspirationalQuote.setText(quote.getQuotes());
             String imgURL;
-//            imgURL = dog.getDogPicturePaths();
-//            Log.d("GLIDE", imgURL);
-//            Glide.with(context).load(imgURL).into(ivAnimal);
+            imgURL = cat.getCats();
+            Log.d("GLIDE", imgURL);
+            Glide.with(context).load(imgURL).into(ivAnimal);
         }
     }
 }

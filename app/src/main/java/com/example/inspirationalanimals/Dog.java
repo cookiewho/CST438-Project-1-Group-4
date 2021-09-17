@@ -16,10 +16,10 @@ import java.util.List;
 @Entity(tableName = "dogs")
 public class Dog {
     @SerializedName("message")
-    ArrayList<Dog> dogList;
+    String dog;
 
-    public ArrayList<Dog> getDogList(){
-        return dogList;
+    public String getDog(){
+        return dog;
     }
 
     @PrimaryKey(autoGenerate = true)
