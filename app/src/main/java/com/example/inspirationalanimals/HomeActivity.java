@@ -25,8 +25,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private static AppDB database;
     List<Quote> quotes;
-    List<Dog> dogs;
-    List<Cat> cats;
+    List<String> dogs;
+    List<String> cats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,46 +58,49 @@ public class HomeActivity extends AppCompatActivity {
         jsonAPI jsonAPI = retrofit.create(jsonAPI.class);
         Call<List<Quote>> call = jsonAPI.getQuotes();
 
-//        call.enqueue(new Callback<List<Quote>>() {
-//            @Override
-//            public void onResponse(Call<List<Quote>> call, Response<List<Quote>> response) {
-//                if (!response.isSuccessful()) {
-//                    Log.d("Response", "Response is outside of the 200-300 range!");
-//                    return;
-//                }
-//                for (Quote quote : response.body()) {
-//                    Log.d("HOME_QUOTE", quote.getQuotes());
-//                    quotes.add(quote);
-//                    inspirationAdapter.notifyDataSetChanged();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Quote>> call, Throwable t) {
-//                Log.d("error",t.getMessage());
-//            }
-//        });
-
-        //Cat API
-        Retrofit retrofit1 = new Retrofit.Builder().baseUrl("https://api.thecatapi.com/v1/images/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        jsonAPI jsonAPI1 = retrofit1.create(jsonAPI.class);
-        Log.d("hi", jsonAPI1.getCats().toString());
-        Call<List<Cat>> call1 = jsonAPI1.getCats();
-
-        call1.enqueue(new Callback<List<Cat>>() {
+        call.enqueue(new Callback<List<Quote>>() {
             @Override
-            public void onResponse(Call<List<Cat>> call, Response<List<Cat>> response) {
+            public void onResponse(Call<List<Quote>> call, Response<List<Quote>> response) {
                 if (!response.isSuccessful()) {
                     Log.d("Response", "Response is outside of the 200-300 range!");
                     return;
                 }
-                    Log.d("test",response.body().toString());
+                for (Quote quote : response.body()) {
+                    Log.d("HOME_QUOTE", quote.getQuotes());
+                    quotes.add(quote);
+                    inspirationAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
-            public void onFailure(Call<List<Cat>> call, Throwable t) {
+            public void onFailure(Call<List<Quote>> call, Throwable t) {
+                Log.d("error",t.getMessage());
+            }
+        });
+
+        //Dog API
+        Retrofit retrofit1 = new Retrofit.Builder().baseUrl("https://dog.ceo/api/breeds/image/random/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        jsonAPI jsonAPI1 = retrofit1.create(jsonAPI.class);
+        Call<Dog> call1 = jsonAPI1.getDogs();
+
+        call1.enqueue(new Callback<Dog>() {
+            @Override
+            public void onResponse(Call<Dog> call, Response<Dog> response) {
+                if (!response.isSuccessful()) {
+                    Log.d("Response", "Response is outside of the 200-300 range!");
+                    return;
+                }
+                for(String dog: response.body().getDogs()){
+                    Log.d("test",dog);
+                    dogs.add(dog);
+                    inspirationAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Dog> call, Throwable t) {
                 Log.d("ERROR", t.getMessage());
             }
         });

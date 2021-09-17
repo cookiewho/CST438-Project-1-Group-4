@@ -23,10 +23,10 @@ import java.util.List;
 public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.ViewHolder> {
     Context context;
     public List<Quote> quotes;
-    public List <Dog> dogs;
-    public List <Cat> cats;
+    public List <String> dogs;
+    public List <String> cats;
 
-    public InspirationAdapter(Context context, List<Quote> quotes, List <Dog> dogs, List <Cat> cats){
+    public InspirationAdapter(Context context, List<Quote> quotes, List <String> dogs, List <String> cats){
         this.context = context;
         this.dogs = dogs;
         this.quotes = quotes;
@@ -42,9 +42,18 @@ public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        Quote quote = quotes.get(position);
-        Cat cat = cats.get(position);
-        holder.bind(cat);
+        Quote quote = quotes.get(position);
+        String dog = "https://images.dog.ceo/breeds/spaniel-brittany/n02101388_1252.jpg";
+        String cat = "";
+        if(dogs.size() > 0) {
+            dog = dogs.get(position);
+            holder.bind(quote, dog);
+        }
+        if(cats.size()>0){
+            cat = cats.get(position);
+            holder.bind(quote, cat);
+        }
+
     }
 
     @Override
@@ -64,10 +73,10 @@ public class InspirationAdapter extends RecyclerView.Adapter<InspirationAdapter.
             container = itemView.findViewById(R.id.container);
         }
 
-        public void bind( Cat cat) {
-//            tvInspirationalQuote.setText(quote.getQuotes());
+        public void bind(Quote quote, String dog) {
+            tvInspirationalQuote.setText(quote.getQuotes());
             String imgURL;
-            imgURL = cat.getCats();
+            imgURL = dog;
             Log.d("GLIDE", imgURL);
             Glide.with(context).load(imgURL).into(ivAnimal);
         }
