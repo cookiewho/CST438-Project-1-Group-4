@@ -1,11 +1,14 @@
 package com.example.inspirationalanimals;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +33,9 @@ public class HomeActivity extends AppCompatActivity {
     List<String> dogs;
     List<Cat> cats;
     private Button logoutButton;
+    RadioButton catRadio;
+    RadioButton dogRadio;
+    RecyclerView rv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +49,10 @@ public class HomeActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Hello "+ currentUsername + "!", Toast.LENGTH_SHORT).show();
 
 
-        RecyclerView rv = findViewById(R.id.rvAnimal);
+        rv = findViewById(R.id.rvAnimal);
+        catRadio = findViewById(R.id.catRadio);
+        dogRadio = findViewById(R.id.dogRadio);
+
         quotes = new ArrayList<>();
         cats = new ArrayList<>();
         dogs = new ArrayList<>();
@@ -82,6 +91,33 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        catRadioChosen(inspirationAdapter);
+
+        dogRadio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cats.clear();
+                dogRadioChosen(inspirationAdapter);
+            }
+        });
+
+        catRadio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dogs.clear();
+                catRadioChosen(inspirationAdapter);
+            }
+        });
+
+
+        logoutButton.setOnClickListener(view -> {
+            Intent intent = MainActivity.getIntent(getApplicationContext());
+            startActivity(intent);
+            finish();
+        });
+    }
+
+    public void dogRadioChosen(InspirationAdapter inspirationAdapter) {
         //Dog API
         Retrofit retrofit1 = new Retrofit.Builder().baseUrl("https://dog.ceo/api/breeds/image/random/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -90,6 +126,7 @@ public class HomeActivity extends AppCompatActivity {
         Call<Dog> call1 = jsonAPI1.getDogs();
 
         call1.enqueue(new Callback<Dog>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(Call<Dog> call, Response<Dog> response) {
                 if (!response.isSuccessful()) {
@@ -108,6 +145,9 @@ public class HomeActivity extends AppCompatActivity {
                 Log.d("ERROR", t.getMessage());
             }
         });
+    };
+
+    public void catRadioChosen(InspirationAdapter inspirationAdapter) {
         //Cat API
         Retrofit retrofit2 = new Retrofit.Builder().baseUrl("https://api.thecatapi.com/v1/images/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -133,12 +173,6 @@ public class HomeActivity extends AppCompatActivity {
             public void onFailure(Call<List<Cat>> call, Throwable t) {
                 Log.d("ERROR", t.getMessage());
             }
-        });
-      
-        logoutButton.setOnClickListener(view -> {
-            Intent intent = MainActivity.getIntent(getApplicationContext());
-            startActivity(intent);
-            finish();
         });
     }
 
