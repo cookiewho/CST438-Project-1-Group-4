@@ -130,4 +130,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public static Intent getIntent(Context context){
+        Intent intent = new Intent(context, MainActivity.class);
+        return intent;
+    }
 }

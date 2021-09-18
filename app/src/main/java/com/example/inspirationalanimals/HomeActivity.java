@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +29,7 @@ public class HomeActivity extends AppCompatActivity {
     List<Quote> quotes;
     List<String> dogs;
     List<String> cats;
+    private Button logoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class HomeActivity extends AppCompatActivity {
         quotes = new ArrayList<>();
         cats = new ArrayList<>();
         dogs = new ArrayList<>();
+        logoutButton = findViewById(R.id.logout_button);
 
         final InspirationAdapter inspirationAdapter = new InspirationAdapter(this, quotes, dogs, cats);
         //set adapter for the recycler view
@@ -103,6 +107,12 @@ public class HomeActivity extends AppCompatActivity {
             public void onFailure(Call<Dog> call, Throwable t) {
                 Log.d("ERROR", t.getMessage());
             }
+        });
+
+        logoutButton.setOnClickListener(view -> {
+            Intent intent = MainActivity.getIntent(getApplicationContext());
+            startActivity(intent);
+            finish();
         });
     }
 
